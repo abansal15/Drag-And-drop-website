@@ -7,8 +7,11 @@ import ImageSection from './ImageSection';
 
 const WebsiteBuilder = () => {
   const [sections, setSections] = useState(() => {
-    const savedSections = JSON.parse(localStorage.getItem('websiteSections')) || [];
-    return savedSections;
+    if (typeof window !== 'undefined') {
+      const savedSections = JSON.parse(localStorage.getItem('websiteSections')) || [];
+      return savedSections;
+    }
+    return [];
   });
 
   const [isEditMode, setIsEditMode] = useState(true);
@@ -16,8 +19,10 @@ const WebsiteBuilder = () => {
   const websiteRef = useRef(null);
 
   useEffect(() => {
-    localStorage.setItem('websiteSections', JSON.stringify(sections));
-    console.log("sections", sections);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('websiteSections', JSON.stringify(sections));
+      console.log('sections', sections);
+    }
   }, [sections]);
   
 
